@@ -13,11 +13,13 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var loginStore = Provider.of<LoginStore>(context);
     return Scaffold(
-      appBar: AppBar(),
+      // appBar: AppBar(
+      // ),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            padding: EdgeInsets.all(40),
+            padding: EdgeInsets.only(top: 200,
+            left: 40, right: 40),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

@@ -20,6 +20,16 @@ abstract class _LoginStore with Store {
   @observable
   String loginMessage="";
 
+
+  @action
+  void clean(){
+        this.email = "";
+    this.password = "";
+    this.logged = false;
+    this.name = "";
+    this.loginMessage="";
+  }
+
   @action
   void setLogin(String email, 
                 String password, 
