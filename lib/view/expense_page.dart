@@ -8,10 +8,7 @@ class ExpensePage extends StatelessWidget {
   var listExp = PageExpenseStore();
 
   void getListas() {
-    print('getListas()');
-    var lista = controller.getExpensesByUser('user');
-    print('getListas()' + lista.length.toString());
-    listExp.setLista(lista);
+    controller.getExpensesByUser('1').then( (l)=>listExp.setLista(l) );
   }
 
   @override
