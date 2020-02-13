@@ -97,6 +97,16 @@ mixin _$LoginStore on _LoginStore, Store {
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
 
   @override
+  void clean() {
+    final _$actionInfo = _$_LoginStoreActionController.startAction();
+    try {
+      return super.clean();
+    } finally {
+      _$_LoginStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setLogin(String email, String password, bool logged, String name,
       String loginMessage) {
     final _$actionInfo = _$_LoginStoreActionController.startAction();

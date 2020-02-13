@@ -9,7 +9,7 @@ import 'package:flutter_mymoney/view/setting_page.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
-//flutter pub run build_runner build
+//flutter pub run build_runner build --delete-conflicting-outputs
 
 class MyApp extends StatelessWidget {
   @override
