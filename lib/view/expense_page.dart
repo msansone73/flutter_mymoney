@@ -47,14 +47,20 @@ class ExpensePage extends StatelessWidget {
                         )),
                     Container(
                       height: 500,
-                      color: Colors.greenAccent,
+                      color: Theme.of(context).primaryColorLight,
                       child: Observer(
                         builder: (_) => ListView.builder(
                             padding: const EdgeInsets.all(8),
                             itemCount: listExp.lista.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                                height: 50,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Theme.of(context).primaryColorDark, 
+                                    width: 1,
+                                    style: BorderStyle.solid),
+                                  ),
+                                // height: 50,
                                 child: Center(
                                     child: Text(
                                         'Entry ${listExp.lista[index].description} - ${listExp.lista[index].valor}')),
