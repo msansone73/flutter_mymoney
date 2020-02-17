@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mymoney/controllers/expense_controller.dart';
+import 'package:flutter_mymoney/stores/login_store.dart';
 import 'package:flutter_mymoney/stores/page_expense_store.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ExpensePage extends StatelessWidget {
   var controller = ExpenseController();
   var listExp = PageExpenseStore();
 
-  void getListas() {
-    controller.getExpensesByUser('1').then((l) => listExp.setLista(l));
-  }
-
   @override
   Widget build(BuildContext context) {
+    var loginStore = Provider.of<LoginStore>(context);
+
+    void getListas() {
+      controller
+          .getExpensesByUser(loginStore.email)
+          .then((l) => listExp.setLista(l));
+    }
+
     return Container(
       child: Scaffold(
         appBar: AppBar(),
