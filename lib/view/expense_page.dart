@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mymoney/controllers/expense_controller.dart';
 import 'package:flutter_mymoney/stores/page_expense_store.dart';
+import 'package:intl/intl.dart';
 
 class ExpensePage extends StatelessWidget {
   var controller = ExpenseController();
   var listExp = PageExpenseStore();
 
   void getListas() {
-    controller.getExpensesByUser('1').then( (l)=>listExp.setLista(l) );
+    controller.getExpensesByUser('1').then((l) => listExp.setLista(l));
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Scaffold(
         appBar: AppBar(),
@@ -56,14 +56,46 @@ class ExpensePage extends StatelessWidget {
                               return Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Theme.of(context).primaryColorDark, 
-                                    width: 1,
-                                    style: BorderStyle.solid),
-                                  ),
+                                      color: Theme.of(context).primaryColorDark,
+                                      width: 1,
+                                      style: BorderStyle.solid),
+                                ),
                                 // height: 50,
                                 child: Center(
-                                    child: Text(
-                                        'Entry ${listExp.lista[index].description} - ${listExp.lista[index].valor}')),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          '${listExp.lista[index].description}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.30,
+                                            child: Text(
+                                                'R\$ ${NumberFormat("#,##").format(listExp.lista[index].valor * 100)} '),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.30,
+                                            child: Text(
+                                                'Data: ${DateFormat('dd-MM-yyyy').format(listExp.lista[index].data)}'),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               );
                             }),
                       ),
