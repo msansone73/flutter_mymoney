@@ -42,4 +42,20 @@ abstract class _LoginStore with Store {
     this.name = name;
     this.loginMessage=loginMessage;
   }
+
+  @action
+  void setLegged(bool logged){
+    this.logged=logged;
+  }
+
+  @action
+  void setMessage(String loginMessage){
+    this.loginMessage=loginMessage;
+  }
+
+  @action
+  void setEmail(String email){
+    this.email=email;
+  }
+
 }

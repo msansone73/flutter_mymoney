@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mymoney/controllers/account_controller.dart';
+import 'package:flutter_mymoney/controllers/preference_controller.dart';
 import 'package:flutter_mymoney/model/login_view_model.dart';
 import 'package:flutter_mymoney/stores/login_store.dart';
 import 'package:provider/provider.dart';
@@ -8,18 +9,23 @@ import 'package:provider/provider.dart';
 class LoginPage extends StatelessWidget {
   var loginvm = LoginViewModel();
   var accountCount = AccountController();
+  var pref = PreferenceController();
+
+  Future<String> setTextBoxEmail() async {
+    return await pref.getData("login_email");
+    }
 
   @override
   Widget build(BuildContext context) {
     var loginStore = Provider.of<LoginStore>(context);
+    setTextBoxEmail().then((e){loginStore.setEmail(e); this.loginvm.email=e;});
     return Scaffold(
       // appBar: AppBar(
       // ),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            padding: EdgeInsets.only(top: 200,
-            left: 40, right: 40),
+            padding: EdgeInsets.only(top: 200, left: 40, right: 40),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -31,14 +37,18 @@ class LoginPage extends StatelessWidget {
                       color: Theme.of(context).accentColor),
                 ),
                 Divider(),
-                MyTextField(
-                  title: 'E-mail',
-                  onChanged: (value) {
-                    this.loginvm.email = value;
-                  },
+                Observer(
+                  builder: (_) => MyTextField(
+                    title: 'E-mail',
+                    value: loginStore.email,
+                    onChanged: (value) {
+                      this.loginvm.email = value;
+                    },
+                  ),
                 ),
                 MyTextField(
                   title: 'Password',
+                  
                   onChanged: (value) {
                     this.loginvm.password = value;
                   },
@@ -49,8 +59,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 FlatButton(
                   onPressed: () {
-                    var log = accountCount.getLogin(loginvm);
-                    log.then((value) {
+                    accountCount.getLogin(loginvm).then((value) {
                       loginStore.setLogin(
                           this.loginvm.email,
                           this.loginvm.password,
@@ -60,7 +69,7 @@ class LoginPage extends StatelessWidget {
                       if (value.logged) {
                         Navigator.pushNamed(context, '/mainPage');
                       } else {
-                        this.loginvm=value;
+                        this.loginvm = value;
                       }
                     });
                   },
@@ -80,9 +89,11 @@ class MyTextField extends StatelessWidget {
   // const MyTextField({Key key}) : super(key: key);
   String title;
   Function onChanged;
-  MyTextField({String title, Function onChanged}) {
+  TextEditingController control = TextEditingController();
+  MyTextField({String title, Function onChanged, String value}) {
     this.title = title;
     this.onChanged = onChanged;
+    control.text=value;
   }
 
   @override
@@ -90,6 +101,7 @@ class MyTextField extends StatelessWidget {
     return TextField(
       onChanged: (value) => onChanged(value),
       decoration: InputDecoration(labelText: this.title),
+      controller: control,
     );
   }
 }
